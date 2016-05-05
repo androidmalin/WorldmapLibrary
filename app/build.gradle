@@ -5,6 +5,10 @@ android {
     defaultConfig {
         minSdkVersion 16
     }
+        lintOptions {
+        abortOnError false
+    }
+
     buildTypes {
         release {
             minifyEnabled false
