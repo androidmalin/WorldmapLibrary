@@ -45,7 +45,7 @@ public abstract class Scene {
     private final Cache cache = new Cache();
 
     /** Our load from disk thread */
-    CacheThread cacheThread;
+    private CacheThread cacheThread;
 
     //region [gs]etSceneSize
     /** Set the size of the scene */
@@ -173,10 +173,10 @@ public abstract class Scene {
 
     public class Viewport {
         /** The bitmap of the current viewport */
-        Bitmap bitmap = null;
+        private Bitmap bitmap = null;
         /** A Rect that defines where the Viewport is within the scene */
-        final Rect window = new Rect(0,0,0,0);
-        float zoom = 1.0f;
+        private final Rect window = new Rect(0,0,0,0);
+        private float zoom = 1.0f;
 
         public void setOrigin(int x, int y){
             synchronized(this){
@@ -328,14 +328,14 @@ public abstract class Scene {
      */
     private class Cache {
         /** A Rect that defines where the Cache is within the scene */
-        final Rect window = new Rect(0,0,0,0);
+        private final Rect window = new Rect(0,0,0,0);
         /** The bitmap of the current cache */
-        Bitmap bitmapRef = null;
-        CacheState state = CacheState.UNINITIALIZED;
+        private Bitmap bitmapRef = null;
+        private CacheState state = CacheState.UNINITIALIZED;
 
-        final Rect srcRect = new Rect(0,0,0,0);
-        final Rect dstRect = new Rect(0,0,0,0);
-        final Point dstSize = new Point();
+        private final Rect srcRect = new Rect(0,0,0,0);
+        private final Rect dstRect = new Rect(0,0,0,0);
+        private final Point dstSize = new Point();
 
         void setState(CacheState newState){
             if (Debug.isDebuggerConnected())
@@ -484,8 +484,8 @@ public abstract class Scene {
      * {@link Scene#fillCache(Rect)}. 
      */
     class CacheThread extends Thread {
-        final Cache cache;
-        boolean running = false;
+        private final Cache cache;
+        private boolean running = false;
 
         CacheThread(Cache cache){ this.cache = cache; }
 

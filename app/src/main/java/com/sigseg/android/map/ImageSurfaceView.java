@@ -31,9 +31,9 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     private DrawThread drawThread;
 
-    Point fling_viewOrigin = new Point();
-    Point fling_viewSize = new Point();
-    Point fling_sceneSize = new Point();
+    private Point fling_viewOrigin = new Point();
+    private Point fling_viewSize = new Point();
+    private Point fling_sceneSize = new Point();
 
     //endregion
 
@@ -238,15 +238,15 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     enum TouchState {UNTOUCHED,IN_TOUCH,START_FLING,IN_FLING};
     class Touch {
-        TouchState state = TouchState.UNTOUCHED;
+        private TouchState state = TouchState.UNTOUCHED;
         /** Where on the view did we initially touch */
-        final Point viewDown = new Point(0,0);
+        private final Point viewDown = new Point(0,0);
         /** What was the coordinates of the viewport origin? */
-        final Point viewportOriginAtDown = new Point(0,0);
-        
-        final Scroller scroller;
-        
-        TouchThread touchThread;
+        private final Point viewportOriginAtDown = new Point(0,0);
+
+        private final Scroller scroller;
+
+        private TouchThread touchThread;
         
         Touch(Context context){
             scroller = new Scroller(context);
@@ -346,8 +346,8 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         }
         
         class TouchThread extends Thread {
-            final Touch touch;
-            boolean running = false;
+            private final Touch touch;
+            private boolean running = false;
 
             TouchThread(Touch touch){ this.touch = touch; }
             @Override
