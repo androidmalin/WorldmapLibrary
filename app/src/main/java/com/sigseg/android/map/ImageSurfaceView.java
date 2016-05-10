@@ -31,6 +31,31 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     private DrawThread drawThread;
 
+    Point fling_viewOrigin = new Point();
+    Point fling_viewSize = new Point();
+    Point fling_sceneSize = new Point();
+
+    //endregion
+
+    //region SurfaceHolder.Callback constructors
+    public ImageSurfaceView(Context context) {
+        super(context);
+        touch = new Touch(context);
+        init(context);
+    }
+
+    public ImageSurfaceView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        touch = new Touch(context);
+        init(context);
+    }
+
+    public ImageSurfaceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        touch = new Touch(context);
+        init(context);
+    }
+
     //region getters and setters
     public void getViewport(Point p){
         scene.getViewport().getOrigin(p);
@@ -74,27 +99,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         }
         return super.onTouchEvent(me);
     }
-    //endregion
 
-    //region SurfaceHolder.Callback constructors
-    public ImageSurfaceView(Context context) {
-        super(context);
-        touch = new Touch(context);
-        init(context);
-    }
-    
-    public ImageSurfaceView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        touch = new Touch(context);
-        init(context);
-    }
-
-    public ImageSurfaceView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        touch = new Touch(context);
-        init(context);
-    }
-    
     private void init(Context context){
         gestureDectector = new GestureDetector(context,this);
         getHolder().addCallback(this);
@@ -196,12 +201,13 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         private SurfaceHolder surfaceHolder;
 
         private boolean running = false;
-        public void setRunning(boolean value){ running = value; }
-        
+
         public DrawThread(SurfaceHolder surfaceHolder){
             this.surfaceHolder = surfaceHolder;
         }
-        
+
+        public void setRunning(boolean value){ running = value; }
+
         @Override
         public void run() {
             Canvas c;
@@ -267,10 +273,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             }
             touchThread = null;
         }
-        
-        Point fling_viewOrigin = new Point();
-        Point fling_viewSize = new Point();
-        Point fling_sceneSize = new Point();
+
         boolean fling( MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
             scene.getViewport().getOrigin(fling_viewOrigin);
             scene.getViewport().getSize(fling_viewSize);
@@ -345,8 +348,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         class TouchThread extends Thread {
             final Touch touch;
             boolean running = false;
-            void setRunning(boolean value){ running = value; }
-            
+
             TouchThread(Touch touch){ this.touch = touch; }
             @Override
             public void run() {
@@ -379,6 +381,9 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                     }
                 }
             }
+
+            void setRunning(boolean value){ running = value; }
+
         }
     }
     //endregion

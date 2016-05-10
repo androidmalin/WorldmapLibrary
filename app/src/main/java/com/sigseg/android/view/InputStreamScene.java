@@ -27,6 +27,15 @@ public class InputStreamScene extends Scene {
     private BitmapRegionDecoder decoder;
     private Bitmap sampleBitmap;
 
+    private static Paint red = new Paint();
+
+    private Rect calculatedCacheWindowRect = new Rect();
+
+    static{
+        red.setColor(Color.RED);
+        red.setStrokeWidth(5L);
+    }
+
     static {
         options.inPreferredConfig = Bitmap.Config.RGB_565;
     }
@@ -57,11 +66,6 @@ public class InputStreamScene extends Scene {
         return bitmap;
     }
 
-    private static Paint red = new Paint();
-    static{
-        red.setColor(Color.RED);
-        red.setStrokeWidth(5L);
-    }
     @Override
     protected void drawSampleRectIntoBitmap(Bitmap bitmap, Rect rectOfSample) {
         if (bitmap!=null){
@@ -88,7 +92,6 @@ public class InputStreamScene extends Scene {
 //        return viewportRect;
 //    }
 
-    private Rect calculatedCacheWindowRect = new Rect();
     @Override
     protected Rect calculateCacheWindow(Rect viewportRect) {
         long bytesToUse = Runtime.getRuntime().maxMemory() * percent / 100;

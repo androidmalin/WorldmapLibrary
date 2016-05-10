@@ -43,7 +43,10 @@ public abstract class Scene {
     private final Viewport viewport = new Viewport();
     /** The cache */
     private final Cache cache = new Cache();
-    
+
+    /** Our load from disk thread */
+    CacheThread cacheThread;
+
     //region [gs]etSceneSize
     /** Set the size of the scene */
     public void setSceneSize(int width, int height){
@@ -330,16 +333,17 @@ public abstract class Scene {
         Bitmap bitmapRef = null;
         CacheState state = CacheState.UNINITIALIZED;
 
+        final Rect srcRect = new Rect(0,0,0,0);
+        final Rect dstRect = new Rect(0,0,0,0);
+        final Point dstSize = new Point();
+
         void setState(CacheState newState){
             if (Debug.isDebuggerConnected())
                 Log.i(TAG,String.format("cacheState old=%s new=%s",state.toString(),newState.toString()));
             state = newState;
         }
         CacheState getState(){ return state; }
-        
-        /** Our load from disk thread */
-        CacheThread cacheThread;
-        
+
         void start(){
             if (cacheThread!=null){
                 cacheThread.setRunning(false);
@@ -448,10 +452,7 @@ public abstract class Scene {
                 }
             }
         }
-        final Rect srcRect = new Rect(0,0,0,0);
-        final Rect dstRect = new Rect(0,0,0,0);
-        final Point dstSize = new Point();
-        
+
         void loadSampleIntoViewport(){
             if (getState()!=CacheState.UNINITIALIZED){
                 synchronized(viewport){
@@ -485,10 +486,11 @@ public abstract class Scene {
     class CacheThread extends Thread {
         final Cache cache;
         boolean running = false;
-        void setRunning(boolean value){ running = value; }
-        
+
         CacheThread(Cache cache){ this.cache = cache; }
-        
+
+        void setRunning(boolean value){ running = value; }
+
         @Override
         public void run() {
             running=true;

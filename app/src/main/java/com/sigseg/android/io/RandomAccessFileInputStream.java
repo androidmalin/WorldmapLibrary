@@ -29,7 +29,17 @@ public class RandomAccessFileInputStream extends InputStream {
         } catch(IOException e) { Log.e(TAG, e.getMessage()); }
         Log.d(TAG,"opened, len = "+fileLength);
     }
-    
+
+    public RandomAccessFileInputStream(File file)
+            throws FileNotFoundException {
+        this(file, DEFAULT_BUFFER_SIZE);
+    }
+
+    public RandomAccessFileInputStream(String filename)
+            throws FileNotFoundException {
+        this(new File(filename), DEFAULT_BUFFER_SIZE);
+    }
+
     public int available() {
         long pos=0;
         int res;
@@ -40,17 +50,6 @@ public class RandomAccessFileInputStream extends InputStream {
         Log.d(TAG,"available "+res);
         return res;
     }
-    
-    public RandomAccessFileInputStream(File file)
-    throws FileNotFoundException {
-        this(file, DEFAULT_BUFFER_SIZE);
-    }
-
-    public RandomAccessFileInputStream(String filename)
-    throws FileNotFoundException {
-        this(new File(filename), DEFAULT_BUFFER_SIZE);
-    }
-
 
     @Override
     public int read() throws IOException {
