@@ -24,12 +24,12 @@ public class InputStreamScene extends Scene {
      */
     private int percent = 5; // Above 25 and we get OOMs
 
-    private BitmapRegionDecoder decoder;
-    private Bitmap sampleBitmap;
+    private final BitmapRegionDecoder decoder;
+    private final Bitmap sampleBitmap;
 
     private static Paint red = new Paint();
 
-    private Rect calculatedCacheWindowRect = new Rect();
+    private final Rect calculatedCacheWindowRect = new Rect();
 
     static{
         red.setColor(Color.RED);

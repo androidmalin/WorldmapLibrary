@@ -20,14 +20,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callback, OnGestureListener  {
-    private final static String TAG = ImageSurfaceView.class.getSimpleName();
+    private static final String TAG = ImageSurfaceView.class.getSimpleName();
+    private static final long SCALE_MOVE_GUARD = 500; // milliseconds after scale to ignore move events
 
     private InputStreamScene scene;
     private final Touch touch;
     private GestureDetector gestureDectector;
     private ScaleGestureDetector scaleGestureDetector;
     private long lastScaleTime = 0;
-    private long SCALE_MOVE_GUARD = 500; // milliseconds after scale to ignore move events
 
     private DrawThread drawThread;
 
@@ -109,7 +109,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     //region class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        private PointF screenFocus = new PointF();
+        private final PointF screenFocus = new PointF();
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
             float scaleFactor = detector.getScaleFactor();
@@ -198,7 +198,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     //region class DrawThread
 
     class DrawThread extends Thread {
-        private SurfaceHolder surfaceHolder;
+        private final SurfaceHolder surfaceHolder;
 
         private boolean running = false;
 
