@@ -38,7 +38,7 @@ public abstract class Scene {
     private final static int MINIMUM_PIXELS_IN_VIEW = 50;
 
     /** The size of the Scene */
-    private Point size = new Point();
+    private final Point size = new Point();
     /** The viewport */
     private final Viewport viewport = new Viewport();
     /** The cache */
