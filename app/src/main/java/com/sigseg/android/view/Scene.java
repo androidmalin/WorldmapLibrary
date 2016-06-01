@@ -33,9 +33,9 @@ import android.util.Log;
  * actually return the necessary bitmaps.
  */
 public abstract class Scene {
-    private final String TAG = "Scene";
+    private static final String TAG = "Scene";
 
-    private final static int MINIMUM_PIXELS_IN_VIEW = 50;
+    private static final int MINIMUM_PIXELS_IN_VIEW = 50;
 
     /** The size of the Scene */
     private final Point size = new Point();
@@ -173,7 +173,7 @@ public abstract class Scene {
 
     public class Viewport {
         /** The bitmap of the current viewport */
-        private Bitmap bitmap = null;
+        private Bitmap bitmap;
         /** A Rect that defines where the Viewport is within the scene */
         private final Rect window = new Rect(0,0,0,0);
         private float zoom = 1.0f;
@@ -330,7 +330,7 @@ public abstract class Scene {
         /** A Rect that defines where the Cache is within the scene */
         private final Rect window = new Rect(0,0,0,0);
         /** The bitmap of the current cache */
-        private Bitmap bitmapRef = null;
+        private Bitmap bitmapRef;
         private CacheState state = CacheState.UNINITIALIZED;
 
         private final Rect srcRect = new Rect(0,0,0,0);
@@ -417,6 +417,8 @@ public abstract class Scene {
                         bitmap = bitmapRef;
                     }
                     break;
+                default:
+                    break;
                 }
             }
             if (bitmap==null)
@@ -485,7 +487,7 @@ public abstract class Scene {
      */
     class CacheThread extends Thread {
         private final Cache cache;
-        private boolean running = false;
+        private boolean running;
 
         CacheThread(Cache cache){ this.cache = cache; }
 

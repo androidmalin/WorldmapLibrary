@@ -27,13 +27,13 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private final Touch touch;
     private GestureDetector gestureDectector;
     private ScaleGestureDetector scaleGestureDetector;
-    private long lastScaleTime = 0;
+    private long lastScaleTime;
 
     private DrawThread drawThread;
 
-    private Point fling_viewOrigin = new Point();
-    private Point fling_viewSize = new Point();
-    private Point fling_sceneSize = new Point();
+    private Point flingViewOrigin = new Point();
+    private Point flingViewSize = new Point();
+    private Point flingSceneSize = new Point();
 
     //endregion
 
@@ -96,6 +96,8 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                 return touch.move(me);
             case MotionEvent.ACTION_UP: return touch.up(me);
             case MotionEvent.ACTION_CANCEL: return touch.cancel(me);
+            default:
+                break;
         }
         return super.onTouchEvent(me);
     }
@@ -200,7 +202,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     class DrawThread extends Thread {
         private final SurfaceHolder surfaceHolder;
 
-        private boolean running = false;
+        private boolean running;
 
         public DrawThread(SurfaceHolder surfaceHolder){
             this.surfaceHolder = surfaceHolder;
@@ -275,22 +277,22 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         }
 
         boolean fling( MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
-            scene.getViewport().getOrigin(fling_viewOrigin);
-            scene.getViewport().getSize(fling_viewSize);
-            scene.getSceneSize(fling_sceneSize);
+            scene.getViewport().getOrigin(flingViewOrigin);
+            scene.getViewport().getSize(flingViewSize);
+            scene.getSceneSize(flingSceneSize);
 
             synchronized(this){
                 state = TouchState.START_FLING;
                 scene.setSuspend(true);
                 scroller.fling(
-                    fling_viewOrigin.x,
-                    fling_viewOrigin.y,
+                    flingViewOrigin.x,
+                    flingViewOrigin.y,
                     (int)-velocityX,
                     (int)-velocityY,
                     0, 
-                    fling_sceneSize.x-fling_viewSize.x, 
+                    flingSceneSize.x- flingViewSize.x, 
                     0,
-                    fling_sceneSize.y-fling_viewSize.y);
+                    flingSceneSize.y- flingViewSize.y);
                 touchThread.interrupt();
             }
 //            Log.d(TAG,String.format("scroller.fling(%d,%d,%d,%d,%d,%d,%d,%d)",
@@ -347,7 +349,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         
         class TouchThread extends Thread {
             private final Touch touch;
-            private boolean running = false;
+            private boolean running;
 
             TouchThread(Touch touch){ this.touch = touch; }
             @Override

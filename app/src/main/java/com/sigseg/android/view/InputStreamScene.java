@@ -8,15 +8,14 @@ import android.util.Log;
 
 public class InputStreamScene extends Scene {
     private static final String TAG=InputStreamScene.class.getSimpleName();
-    
+    /** How many bytes does one pixel use? */
+    private static final int BYTES_PER_PIXEL = 4;
+
     private static final boolean DEBUG = false;
     private static final BitmapFactory.Options options = new BitmapFactory.Options();
 
     /** What is the downsample size for the sample image?  1=1/2, 2=1/4 3=1/8, etc */
     private static final int DOWN_SAMPLE_SHIFT = 2;
-
-    /** How many bytes does one pixel use? */
-    private final int BYTES_PER_PIXEL = 4;
 
     /** What percent of total memory should we use for the cache? The bigger the cache,
      * the longer it takes to read -- 1.2 secs for 25%, 600ms for 10%, 500ms for 5%.
