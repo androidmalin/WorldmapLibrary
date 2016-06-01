@@ -22,7 +22,7 @@ public class ImageViewerActivity extends Activity {
     private static final String KEY_FN = "FN";
     
     private ImageSurfaceView imageSurfaceView;
-    private String filename = null;
+    private String filename;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

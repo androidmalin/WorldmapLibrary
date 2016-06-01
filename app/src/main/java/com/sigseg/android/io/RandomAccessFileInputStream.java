@@ -15,11 +15,11 @@ import android.util.Log;
 
 public class RandomAccessFileInputStream extends InputStream {
 
+    private static final String TAG = "WorldMapActivityRAIFS";
     public static  int DEFAULT_BUFFER_SIZE = 16 * 1024;
     private RandomAccessFile fp;
     private long markPos = -1;
     private long fileLength = -1;
-    private String TAG = "WorldMapActivityRAIFS";
     
     public RandomAccessFileInputStream(File file, int bufferSize)
             throws FileNotFoundException {
