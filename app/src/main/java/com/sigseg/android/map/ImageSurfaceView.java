@@ -158,6 +158,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                 retry = false;
             } catch (InterruptedException e) {
                 // we will try it again and again...
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -215,7 +216,9 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                 try {
                     // Don't hog the entire CPU
                     Thread.sleep(5);
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
                 c = null;
                 try {
                     c = surfaceHolder.lockCanvas();
@@ -269,6 +272,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                     retry = false;
                 } catch (InterruptedException e) {
                     // we will try it again and again...
+                    Thread.currentThread().interrupt();
                 }
             }
             touchThread = null;
@@ -357,7 +361,9 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                     while(touch.state!=TouchState.START_FLING && touch.state!=TouchState.IN_FLING){
                         try {
                             Thread.sleep(Integer.MAX_VALUE);
-                        } catch (InterruptedException e) {}
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
                         if (!running)
                             return;
                     }
@@ -375,7 +381,9 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                                 touch.state = TouchState.UNTOUCHED;
                                 try{
                                     Thread.sleep(5);
-                                } catch (InterruptedException e) {}
+                                } catch (InterruptedException e) {
+                                    Thread.currentThread().interrupt();
+                                }
                             }
                         }
                     }

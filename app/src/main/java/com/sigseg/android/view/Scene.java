@@ -366,6 +366,7 @@ public abstract class Scene {
                     retry = false;
                 } catch (InterruptedException e) {
                     // we will try it again and again...
+                    Thread.currentThread().interrupt();
                 }
             }
             cacheThread = null;
@@ -500,7 +501,9 @@ public abstract class Scene {
                     try {
                         // Sleep until we have something to do
                         Thread.sleep(Integer.MAX_VALUE);
-                    } catch (InterruptedException ignored) {}
+                    } catch (InterruptedException ignored) {
+                        Thread.currentThread().interrupt();
+                    }
                 if (!running)
                     return;
                 long start = System.currentTimeMillis();
