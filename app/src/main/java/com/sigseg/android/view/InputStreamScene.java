@@ -75,6 +75,15 @@ public class InputStreamScene extends Scene {
             int right  = left + (rectOfSample.width()>> DOWN_SAMPLE_SHIFT);
             int bottom = top + (rectOfSample.height()>> DOWN_SAMPLE_SHIFT);
             Rect srcRect = new Rect( left, top, right, bottom );
+
+            // Clamp srcRect to sampleBitmap bounds to prevent drawing issues
+            // when the viewport size exceeds the scene size
+            if (sampleBitmap != null) {
+                if (srcRect.left < 0) srcRect.left = 0;
+                if (srcRect.top < 0) srcRect.top = 0;
+                if (srcRect.right > sampleBitmap.getWidth()) srcRect.right = sampleBitmap.getWidth();
+                if (srcRect.bottom > sampleBitmap.getHeight()) srcRect.bottom = sampleBitmap.getHeight();
+            }
             Rect identity= new Rect(0,0,c.getWidth(),c.getHeight());
             c.drawBitmap(
                 sampleBitmap,
